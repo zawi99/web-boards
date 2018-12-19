@@ -7,7 +7,8 @@ from boards.views import (home,
                           board_detail,
                           topic_new,
                           topic_posts,
-                          topic_reply)
+                          topic_reply,
+                          PostEditView)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -19,6 +20,10 @@ urlpatterns = [
         name='topic-posts'),
     url(r'^boards/(?P<pk>\d+)/topic/(?P<topic_pk>\d+)/reply/$', topic_reply,
         name='topic-reply'),
+    url(
+        r'^boards/(?P<pk>\d+)/topic/(?P<topic_pk>\d+)/post/(?P<post_pk>\d+)/edit/$',
+        PostEditView.as_view(),
+        name='post-edit'),
 
     url(r'^signup/$', signup, name='signup'),
     url(r'^login/$',

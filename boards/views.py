@@ -1,6 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
+from django.views.generic import UpdateView
 
 from .forms import NewTopicForm, NewPostForm
 from .models import (
@@ -91,3 +93,20 @@ def topic_reply(request, pk, topic_pk):
         'topic': topic
     }
     return render(request, 'boards/topic_reply.html', context)
+
+
+class PostEditView(UpdateView):
+    model = Post
+    fields = ('message',)
+    template_name = 'boards/post_edit.html'
+    pk_url_kwarg = 'post_pk'
+
+    # context_object_name = 'post'
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.updated_by = self.request.user
+        post.updated_at = timezone.now()
+        post.save()
+        return redirect('topic-posts', pk=post.topic.board.pk,
+                        topic_pk=post.topic.pk)
