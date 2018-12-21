@@ -17,14 +17,14 @@ class PostEditTestCase(TestCase):
                                           description='About django')
         self.username = 'john'
         self.password = '123'
-        self.user = User.objects.create_user(username=self.username,
-                                             password=self.password,
-                                             email='john@gmail.com')
+        user = User.objects.create_user(username=self.username,
+                                        password=self.password,
+                                        email='john@gmail.com')
         self.topic = Topic.objects.create(subject='Django tests',
-                                          starter=self.user,
+                                          starter=user,
                                           board=self.board)
         self.post = Post.objects.create(topic=self.topic,
-                                        created_by=self.user,
+                                        created_by=user,
                                         message='post-edit test view')
         self.url = reverse('post-edit', kwargs={
             'pk': self.board.pk,
@@ -54,7 +54,7 @@ class UnauthorizedPostEditViewTests(PostEditTestCase):
         user = User.objects.create_user(username=username,
                                         email='mark@gmail.com',
                                         password=password)
-        self.client.login(usrname=username, password=password)
+        self.client.login(username=username, password=password)
         self.response = self.client.get(self.url)
 
     def test_status_code(self):
