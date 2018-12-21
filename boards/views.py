@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
@@ -95,13 +96,17 @@ def topic_reply(request, pk, topic_pk):
     return render(request, 'boards/topic_reply.html', context)
 
 
-class PostEditView(UpdateView):
+class PostEditView(LoginRequiredMixin, UpdateView):
     model = Post
     fields = ('message',)
     template_name = 'boards/post_edit.html'
     pk_url_kwarg = 'post_pk'
 
-    # context_object_name = 'post'
+    context_object_name = 'post'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(created_by=self.request.user)
 
     def form_valid(self, form):
         post = form.save(commit=False)
