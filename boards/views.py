@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, ListView
 
 from .forms import NewTopicForm, NewPostForm
 from .models import (
@@ -13,15 +13,10 @@ from .models import (
 )
 
 
-def home(request):
-    boards = Board.objects.all()
-    post_count = Post.objects.count()
-    topic_count = Topic.objects.count()
-    # last_post = Post.objects.filter(topic__board=board)
-    context = {
-        'boards': boards
-    }
-    return render(request, 'home.html', context)
+class BoardListView(ListView):
+    model = Board
+    context_object_name = 'boards'
+    template_name = 'home.html'
 
 
 def board_detail(request, pk):
