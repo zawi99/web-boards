@@ -3,7 +3,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib import admin
 
 from accounts.views import signup
-from boards.views import (board_detail,
+from boards.views import (TopicListView,
                           topic_new,
                           topic_posts,
                           topic_reply,
@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^$', BoardListView.as_view(), name='home'),
-    url(r'^boards/(?P<pk>\d+)/$', board_detail, name='board-detail'),
+    url(r'^boards/(?P<pk>\d+)/$', TopicListView.as_view(), name='topic-list'),
     url(r'^boards/(?P<pk>\d+)/new/$', topic_new, name='topic-new'),
     url(r'^boards/(?P<pk>\d+)/topic/(?P<topic_pk>\d+)/$', topic_posts,
         name='topic-posts'),

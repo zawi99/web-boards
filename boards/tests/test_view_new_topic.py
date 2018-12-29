@@ -34,7 +34,7 @@ class NewTopicTests(TestCase):
     def test_new_topic_view_contains_navigation_links(self):
         home_url = reverse('home')
         new_topic_url = reverse('topic-new', kwargs={'pk': 1})
-        board_topics_url = reverse('board-detail', kwargs={'pk': 1})
+        board_topics_url = reverse('topic-list', kwargs={'pk': 1})
 
         response = self.client.get(new_topic_url)
         self.assertContains(response, f'href="{board_topics_url}"')
