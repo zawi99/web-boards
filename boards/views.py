@@ -23,6 +23,7 @@ class BoardListView(ListView):
 class TopicListView(ListView):
     model = Topic
     context_object_name = 'topics'
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         kwargs['board'] = self.board
@@ -33,29 +34,6 @@ class TopicListView(ListView):
         queryset = self.board.topics.order_by('-last_update').annotate(
             replies=Count('posts') - 1)
         return queryset
-
-
-# def board_detail(request, pk):
-#     board = get_object_or_404(Board, pk=pk)
-#     topics_list = Topic.objects.order_by('-last_update').annotate(
-#         replies=Count('posts') - 1)
-#
-#     paginator = Paginator(topics_list, 20)  # Show 20 topics per page
-#     page = request.GET.get('page')
-#
-#     try:
-#         topics = paginator.page(page)
-#     except PageNotAnInteger:
-#         # fallback to the first page
-#         topics = paginator.page(1)
-#     except EmptyPage:
-#         topics = paginator.page(paginator.num_pages)
-#
-#     context = {
-#         'board': board,
-#         'topics': topics
-#     }
-#     return render(request, 'boards/topic_list.html', context)
 
 
 @login_required
