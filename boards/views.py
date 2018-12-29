@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
@@ -21,8 +22,20 @@ class BoardListView(ListView):
 
 def board_detail(request, pk):
     board = get_object_or_404(Board, pk=pk)
-    topics = Topic.objects.order_by('-last_update').annotate(
+    topics_list = Topic.objects.order_by('-last_update').annotate(
         replies=Count('posts') - 1)
+
+    paginator = Paginator(topics_list, 20)  # Show 20 topics per page
+    page = request.GET.get('page')
+
+    try:
+        topics = paginator.page(page)
+    except PageNotAnInteger:
+        # fallback to the first page
+        topics = paginator.page(1)
+    except EmptyPage:
+        topics = paginator.page(paginator.num_pages)
+
     context = {
         'board': board,
         'topics': topics
