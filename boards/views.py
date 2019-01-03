@@ -68,7 +68,7 @@ def topic_new(request, pk):
 class PostListView(ListView):
     model = Post
     context_object_name = 'posts'
-    paginate_by = 2
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         self.topic.views += 1
