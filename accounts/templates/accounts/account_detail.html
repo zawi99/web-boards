@@ -5,18 +5,21 @@
 {% endblock %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="{% url 'home' %}">Boards</a></li>
     <li class="breadcrumb-item active">My account</li>
 {% endblock %}
 
 {% block content %}
     <div class="row">
         <div class="col-6">
-            <h3>Username:</h3>
-            <p class="lead">{{ user.username }}</p>
+            <h4>First name:</h4>
+            <p class="lead">{{ user.first_name }}</p>
+            <h4>Last name:</h4>
+            <p class="lead">{{ user.last_name }}</p>
         </div>
         <div class="col-6">
-            <h3>Email:</h3>
+            <h4>Username:</h4>
+            <p class="lead">{{ user.username }}</p>
+            <h4>Email:</h4>
             <p class="lead">{{ user.email }}</p>
         </div>
     <hr/>
@@ -27,8 +30,8 @@
                 <div class="card-body">
                     <h5 class="card-title">Account details</h5>
                     <div class="list-group">
-                        <a class="list-group-item" href="#">Update details</a>
-                        <a class="list-group-item" href="#">Change password</a>
+                        <a class="list-group-item" href="{% url 'account-update' %}">Update details</a>
+                        <a class="list-group-item" href="{% url 'password_change' %}">Change password</a>
                     </div>
                 </div>
             </div>
