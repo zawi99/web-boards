@@ -2,7 +2,9 @@ from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
 
-from accounts.views import signup, UserAccountView
+from accounts.views import (signup,
+                            UserAccountView,
+                            UserUpdateView)
 from boards.views import (TopicListView,
                           topic_new,
                           PostListView,
@@ -15,6 +17,7 @@ urlpatterns = [
 
     # accounts
     url(r'^account/$', UserAccountView.as_view(), name='account-detail'),
+    url(r'^account/update/$', UserUpdateView.as_view(), name='account-update'),
 
     # boards
     url(r'^$', BoardListView.as_view(), name='home'),
