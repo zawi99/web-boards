@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
 
-from accounts.views import signup
+from accounts.views import signup, UserAccountView
 from boards.views import (TopicListView,
                           topic_new,
                           PostListView,
@@ -13,10 +13,15 @@ from boards.views import (TopicListView,
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
+    # accounts
+    url(r'^account/$', UserAccountView.as_view(), name='account-detail'),
+
+    # boards
     url(r'^$', BoardListView.as_view(), name='home'),
     url(r'^boards/(?P<pk>\d+)/$', TopicListView.as_view(), name='topic-list'),
     url(r'^boards/(?P<pk>\d+)/new/$', topic_new, name='topic-new'),
-    url(r'^boards/(?P<pk>\d+)/topic/(?P<topic_pk>\d+)/$', PostListView.as_view(),
+    url(r'^boards/(?P<pk>\d+)/topic/(?P<topic_pk>\d+)/$',
+        PostListView.as_view(),
         name='topic-posts'),
     url(r'^boards/(?P<pk>\d+)/topic/(?P<topic_pk>\d+)/reply/$', topic_reply,
         name='topic-reply'),
@@ -25,6 +30,7 @@ urlpatterns = [
         PostEditView.as_view(),
         name='post-edit'),
 
+    # auth
     url(r'^signup/$', signup, name='signup'),
     url(r'^login/$',
         auth_views.LoginView.as_view(template_name='accounts/login.html'),

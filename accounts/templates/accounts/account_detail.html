@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    My account - {{ user.username }} - {{ block.super }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Boards</a></li>
+    <li class="breadcrumb-item active">My account</li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-6">
+            <h3>Username:</h3>
+            <p class="lead">{{ user.username }}</p>
+        </div>
+        <div class="col-6">
+            <h3>Email:</h3>
+            <p class="lead">{{ user.email }}</p>
+        </div>
+    <hr/>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-3 my-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Account details</h5>
+                    <div class="list-group">
+                        <a class="list-group-item" href="#">Update details</a>
+                        <a class="list-group-item" href="#">Change password</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
