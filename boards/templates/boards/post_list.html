@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{% load humanize %}
 {% load static %}
 
 {% block title %}
@@ -28,7 +29,7 @@
                     <div class="col-2">
                         <img src="{% static 'img/default_profile.svg' %}" alt="{{ post.created_by.username }}"
                              class="w-100">
-                        <small>Posts: {{ post.created_by.posts.count }}</small>
+                        <small>Posts: {{ post.created_by.posts.count|intcomma }}</small>
                     </div>
                     <div class="col-10">
                         <div class="row mb-3">
@@ -36,7 +37,7 @@
                                 <strong class="text-muted">{{ post.created_by.username }}</strong>
                             </div>
                             <div class="col-6 text-right">
-                                <small class="text-muted">{{ post.created_at }}</small>
+                                <small class="text-muted">{{ post.created_at|naturaltime }}</small>
                             </div>
                         </div>
                         {{ post.get_message_as_markdown }}
@@ -49,8 +50,8 @@
                         {% endif %}
                         {% if post.updated_by %}
                             <div class="align-items-end">
-                                <small class="text-muted">Edited by {{ post.updated_by }}
-                                    at {{ post.updated_at }}</small>
+                                <small class="text-muted">Edited by {{ post.updated_by }} |
+                                    {{ post.updated_at|naturaltime }}</small>
                             </div>
                         {% endif %}
                     </div>
