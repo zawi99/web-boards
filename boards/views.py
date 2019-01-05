@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import UpdateView, ListView
+from django.views.generic import UpdateView, ListView, DeleteView
 
 from .forms import NewTopicForm, NewPostForm
 from .models import (
@@ -125,3 +126,18 @@ class PostEditView(LoginRequiredMixin, UpdateView):
         post.save()
         return redirect('topic-posts', pk=post.topic.board.pk,
                         topic_pk=post.topic.pk)
+
+
+class TopicDeleteView(DeleteView):
+    def get_object(self, queryset=None):
+        user = self.request.user
+        board_pk = self.kwargs.get('pk')
+        topic_pk = self.kwargs.get('topic_pk')
+        topic = get_object_or_404(Topic, board__pk=board_pk, pk=topic_pk)
+        if not topic.starter == user and not user.is_staff:
+            raise Http404
+        return topic
+
+    def get_success_url(self):
+        board_pk = self.kwargs.get('pk')
+        return reverse_lazy('topic-list', kwargs={'pk': board_pk})

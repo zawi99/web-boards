@@ -14,8 +14,18 @@
 {% endblock %}
 
 {% block content %}
-    <div class="mb-4">
-        <a href="{% url 'topic-reply' topic.board.pk topic.pk %}" class="btn btn-primary">Reply</a>
+    <div class="row">
+        <div class="col-6 mb-4">
+            <a href="{% url 'topic-reply' topic.board.pk topic.pk %}" class="btn btn-primary">Reply</a>
+        </div>
+        <div class="col-6 mb-4 text-right">
+            {% if request.user == topic.starter or request.user.is_staff %}
+                <form method="post" action="{% url 'topic-delete' topic.board.pk topic.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete topic</button>
+                </form>
+            {% endif %}
+        </div>
     </div>
     {% for post in posts %}
         <div class="card mb-2 {% if forloop.last %}mb-4{% else %}mb-2{% endif %} {% if forloop.first %}border-dark{% endif %}">

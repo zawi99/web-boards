@@ -10,7 +10,8 @@ from boards.views import (TopicListView,
                           PostListView,
                           topic_reply,
                           BoardListView,
-                          PostEditView)
+                          PostEditView,
+                          TopicDeleteView)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -32,6 +33,9 @@ urlpatterns = [
         r'^boards/(?P<pk>\d+)/topic/(?P<topic_pk>\d+)/post/(?P<post_pk>\d+)/edit/$',
         PostEditView.as_view(),
         name='post-edit'),
+    url(r'^boards/(?P<pk>\d+)/topic/(?P<topic_pk>\d+)/delete/$',
+        TopicDeleteView.as_view(),
+        name='topic-delete'),
 
     # auth
     url(r'^signup/$', signup, name='signup'),
