@@ -20,7 +20,7 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post" class="mb-4">
+    <form method="post" class="mb-4" novalidate>
         {% csrf_token %}
         {{ form|crispy }}
         <button type="submit" class="btn btn-success">Post a reply</button>
