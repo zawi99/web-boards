@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block title %}
     Start a New Topic - {{ block.super }}
+{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}">
 {% endblock %}
 
 {% block breadcrumb %}
@@ -18,4 +23,11 @@
         {{ form|crispy }}
         <button type="submit" class="btn btn-success">Post</button>
     </form>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'js/simplemde.min.js' %}"></script>
+    <script>
+        var simplemde = new SimpleMDE();
+    </script>
 {% endblock %}

@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block title %}
     Edit post
+{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}">
 {% endblock %}
 
 {% block breadcrumb %}
@@ -18,9 +23,16 @@
 {% block content %}
     <form method="post" class="mb-4" novalidate>
         {% csrf_token %}
-        {{ form|crispy}}
+        {{ form|crispy }}
         <button type="submit" class="btn btn-success">Save changes</button>
         <a href="{% url 'topic-posts' post.topic.board.pk post.topic.pk %}" class="btn btn-outline-secondary"
            role="button">Cancel</a>
     </form>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'js/simplemde.min.js' %}"></script>
+    <script>
+        var simplemde = new SimpleMDE();
+    </script>
 {% endblock %}

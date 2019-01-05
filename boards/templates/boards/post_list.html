@@ -39,12 +39,18 @@
                                 <small class="text-muted">{{ post.created_at }}</small>
                             </div>
                         </div>
-                        {{ post.message }}
+                        {{ post.get_message_as_markdown }}
                         {% if post.created_by == user %}
                             <div class="mt-3">
                                 <a href="{% url 'post-edit' topic.board.pk topic.pk post.pk %}"
                                    class="btn btn-primary btn-sm"
                                    role="button">Edit</a>
+                            </div>
+                        {% endif %}
+                        {% if post.updated_by %}
+                            <div class="align-items-end">
+                                <small class="text-muted">Edited by {{ post.updated_by }}
+                                    at {{ post.updated_at }}</small>
                             </div>
                         {% endif %}
                     </div>
