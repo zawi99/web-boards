@@ -16,7 +16,7 @@ class Board(models.Model):
 
     def get_last_post(self):
         return Post.objects.filter(topic__board=self).order_by(
-            '-created_by').first()
+            '-created_at').first()
 
     def get_post_count(self):
         return Post.objects.filter(topic__board=self).count()
@@ -29,7 +29,8 @@ class Topic(models.Model):
     views = models.PositiveIntegerField(default=0)
 
     created = models.DateTimeField(auto_now_add=True)
-    last_update = models.DateTimeField(auto_now=True)
+    # last_update is overwritten in topic_reply view
+    last_update = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.subject

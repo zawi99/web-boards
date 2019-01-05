@@ -72,8 +72,12 @@ class PostListView(ListView):
     paginate_by = 20
 
     def get_context_data(self, **kwargs):
-        self.topic.views += 1
-        self.topic.save()
+        session_key = f'viewed_topic_{self.topic.id}'
+        if not self.request.session.get(session_key, False):
+            self.topic.views += 1
+            self.topic.save()
+            self.request.session[session_key] = True
+
         kwargs['topic'] = self.topic
         return super().get_context_data(**kwargs)
 
@@ -96,6 +100,9 @@ def topic_reply(request, pk, topic_pk):
             post.topic = topic
             post.created_by = user
             post.save()
+
+            topic.last_update = timezone.now()
+            topic.save()
             return redirect('topic-posts', pk=pk, topic_pk=topic_pk)
     else:
         form = NewPostForm()
@@ -122,7 +129,6 @@ class PostEditView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         post = form.save(commit=False)
         post.updated_by = self.request.user
-        post.updated_at = timezone.now()
         post.save()
         return redirect('topic-posts', pk=post.topic.board.pk,
                         topic_pk=post.topic.pk)
