@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from django.views.generic import UpdateView, ListView, DeleteView
 
@@ -103,7 +103,14 @@ def topic_reply(request, pk, topic_pk):
 
             topic.last_update = timezone.now()
             topic.save()
-            return redirect('topic-posts', pk=pk, topic_pk=topic_pk)
+
+            topic_url = reverse('topic-posts',
+                                kwargs={
+                                    'pk': topic.board.pk,
+                                    'topic_pk': topic.pk
+                                })
+            topic_post_url = f'{topic_url}?page={topic.get_page_count()}#{post.pk}'
+            return redirect(topic_post_url)
     else:
         form = NewPostForm()
 
