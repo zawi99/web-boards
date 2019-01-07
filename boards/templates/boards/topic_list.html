@@ -49,11 +49,11 @@
                             {% endif %}
                         </small>
                     </td>
-                    <td>{{ topic.starter.username }}</td>
+                    <td class="align-middle">{{ topic.starter.username }}</td>
                     <td class="align-middle">
                         {% if not topic.replies < 0 %}{{ topic.replies }}{% else %}0{% endif %}</td>
                     <td class="align-middle">{{ topic.views|intcomma }}</td>
-                    <td>{{ topic.last_update|naturaltime }}</td>
+                    <td class="align-middle">{{ topic.last_update|naturaltime }}</td>
                 </tr>
             {% endfor %}
             </tbody>
