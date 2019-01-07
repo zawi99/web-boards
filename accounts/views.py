@@ -31,6 +31,7 @@ class UserAccountView(LoginRequiredMixin, DetailView):
     def get_object(self, queryset=None):
         return self.request.user
 
+
 class UserUpdateView(UpdateView):
     model = User
     fields = ('first_name', 'last_name')

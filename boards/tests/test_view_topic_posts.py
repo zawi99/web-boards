@@ -16,7 +16,7 @@ class TopicPostsTests(TestCase):
         topic = Topic.objects.create(board=board,
                                      starter=user,
                                      subject='Django tests')
-        post = Post.objects.create(
+        Post.objects.create(
             message='Learning \'how to\' test in Django.',
             topic=topic,
             created_by=user,

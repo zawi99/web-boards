@@ -49,7 +49,8 @@ class SuccessfulPasswordResetTests(TestCase):
 
     def test_redirection(self):
         """
-        A valid form submission should redirect to the 'password_reset_done' view.
+        A valid form submission should redirect to
+        the 'password_reset_done' view.
         """
         password_reset_done_url = reverse('password_reset_done')
         self.assertRedirects(self.response, password_reset_done_url)
@@ -69,9 +70,9 @@ class InvalidPasswordResetTests(TestCase):
 
     def test_redirection(self):
         """
-        If the email address provided does not exist in the system, the user is inactive,
-        or has an unusable password, the user will still be redirected to this view but
-        no email will be sent.
+        If the email address provided does not exist in the system, the user
+        is inactive, or has an unusable password, the user will still be
+        redirected to this view but no email will be sent.
         """
         password_reset_done_url = reverse('password_reset_done')
         self.assertRedirects(self.response, password_reset_done_url)

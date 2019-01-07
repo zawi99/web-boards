@@ -22,8 +22,8 @@ class UserAccountTests(UserAccountTestCase):
         super().setUp()
         username = 'john'
         password = '123'
-        user = User.objects.create_user(username=username,
-                                        password=password)
+        User.objects.create_user(username=username,
+                                 password=password)
         self.client.login(username=username, password=password)
         self.response = self.client.get(self.url)
 
@@ -33,5 +33,3 @@ class UserAccountTests(UserAccountTestCase):
     def test_view_function(self):
         view = resolve('/account/')
         self.assertEquals(view.func.view_class, UserAccountView)
-
-

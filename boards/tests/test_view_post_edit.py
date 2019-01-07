@@ -51,9 +51,9 @@ class UnauthorizedPostEditViewTests(PostEditTestCase):
         super().setUp()
         username = 'mark'
         password = '123'
-        user = User.objects.create_user(username=username,
-                                        email='mark@gmail.com',
-                                        password=password)
+        User.objects.create_user(username=username,
+                                 email='mark@gmail.com',
+                                 password=password)
         self.client.login(username=username, password=password)
         self.response = self.client.get(self.url)
 

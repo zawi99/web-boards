@@ -28,7 +28,8 @@ class SingupTests(TestCase):
 
     def test_form_inputs(self):
         """
-        The SingUpForm should contain 5 inputs: csrf, username, email, password1, password2
+        The SingUpForm should contain 5 inputs: csrf, username, email,
+        password1, password2
         """
         self.assertContains(self.response, '<input', 5)
         self.assertContains(self.response, 'type="text"', 1)

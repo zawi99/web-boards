@@ -6,7 +6,9 @@ from django.test import TestCase
 
 class PasswordResetMailTests(TestCase):
     def setUp(self):
-        User.objects.create_user(username='john', email='john@gmail.com', password='qwerty123')
+        User.objects.create_user(username='john',
+                                 email='john@gmail.com',
+                                 password='qwerty123')
         data = {
             'email': 'john@gmail.com'
         }
@@ -24,10 +26,11 @@ class PasswordResetMailTests(TestCase):
         context = self.response.context
         token = context.get('token')
         uid = context.get('uid')
-        password_reset_token_url = reverse('password_reset_confirm', kwargs={
-            'token': token,
-            'uidb64': uid,
-        })
+        password_reset_token_url = reverse('password_reset_confirm',
+                                           kwargs={
+                                               'token': token,
+                                               'uidb64': uid,
+                                           })
         self.assertIn(password_reset_token_url, body)
         self.assertIn('john', body)
         self.assertIn('john@gmail.com', body)

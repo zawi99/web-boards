@@ -13,8 +13,8 @@ class NewTopicTests(TestCase):
     def setUp(self):
         Board.objects.create(name='Piwko', description='O piwku.')
         User.objects.create_user(username='testuser',
-                            email='pies@o2.pl',
-                            password='123')
+                                 email='pies@o2.pl',
+                                 password='123')
         self.client.login(username='testuser', password='123')
 
     def test_new_topic_view_success_status_code(self):
