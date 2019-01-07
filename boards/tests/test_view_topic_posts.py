@@ -21,7 +21,7 @@ class TopicPostsTests(TestCase):
             topic=topic,
             created_by=user,
         )
-        self.url = reverse('topic-posts', kwargs={
+        self.url = reverse('boards:topic-posts', kwargs={
             'pk': topic.board.pk,
             'topic_pk': topic.pk
         })

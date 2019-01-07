@@ -10,18 +10,18 @@
 
 {% block breadcrumb %}
     <li class="breadcrumb-item"><a href="{% url 'home' %}">Boards</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'topic-list' topic.board.pk %}">{{ topic.board.name }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'boards:topic-list' topic.board.pk %}">{{ topic.board.name }}</a></li>
     <li class="breadcrumb-item active">{{ topic.subject }}</li>
 {% endblock %}
 
 {% block content %}
     <div class="row">
         <div class="col-6 mb-4">
-            <a href="{% url 'topic-reply' topic.board.pk topic.pk %}" class="btn btn-primary">Reply</a>
+            <a href="{% url 'boards:topic-reply' topic.board.pk topic.pk %}" class="btn btn-primary">Reply</a>
         </div>
         <div class="col-6 mb-4 text-right">
             {% if request.user == topic.starter or request.user.is_staff %}
-                <form method="post" action="{% url 'topic-delete' topic.board.pk topic.pk %}">
+                <form method="post" action="{% url 'boards:topic-delete' topic.board.pk topic.pk %}">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">Delete topic</button>
                 </form>
@@ -61,7 +61,7 @@
                 {{ post.get_message_as_markdown }}
                 {% if post.created_by == request.user or request.user.is_staff %}
                     <div class="d-flex align-items-end">
-                        <a href="{% url 'post-edit' topic.board.pk topic.pk post.pk %}"
+                        <a href="{% url 'boards:post-edit' topic.board.pk topic.pk post.pk %}"
                            class="btn btn-primary btn-sm"
                            role="button">Edit</a>
                     </div>

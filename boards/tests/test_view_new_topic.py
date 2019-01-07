@@ -18,12 +18,12 @@ class NewTopicTests(TestCase):
         self.client.login(username='testuser', password='123')
 
     def test_new_topic_view_success_status_code(self):
-        url = reverse('topic-new', kwargs={'pk': 1})
+        url = reverse('boards:topic-new', kwargs={'pk': 1})
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
 
     def test_new_topic_view_not_found_status_code(self):
-        url = reverse('topic-new', kwargs={'pk': 99})
+        url = reverse('boards:topic-new', kwargs={'pk': 99})
         response = self.client.get(url)
         self.assertEquals(response.status_code, 404)
 
@@ -33,20 +33,20 @@ class NewTopicTests(TestCase):
 
     def test_new_topic_view_contains_navigation_links(self):
         home_url = reverse('home')
-        new_topic_url = reverse('topic-new', kwargs={'pk': 1})
-        board_topics_url = reverse('topic-list', kwargs={'pk': 1})
+        new_topic_url = reverse('boards:topic-new', kwargs={'pk': 1})
+        board_topics_url = reverse('boards:topic-list', kwargs={'pk': 1})
 
         response = self.client.get(new_topic_url)
         self.assertContains(response, f'href="{board_topics_url}"')
         self.assertContains(response, f'href="{home_url}"')
 
     def test_csrf_token(self):
-        url = reverse('topic-new', kwargs={'pk': 1})
+        url = reverse('boards:topic-new', kwargs={'pk': 1})
         response = self.client.get(url)
         self.assertContains(response, 'csrfmiddlewaretoken')
 
     def test_new_topic_valid_data_post(self):
-        url = reverse('topic-new', kwargs={'pk': 1})
+        url = reverse('boards:topic-new', kwargs={'pk': 1})
         data = {
             'subject': 'test subject',
             'message': 'some message to test'
@@ -60,7 +60,7 @@ class NewTopicTests(TestCase):
         Invalid data should not be send by post
         The form with validation errors should be displayed
         """
-        url = reverse('topic-new', kwargs={'pk': 1})
+        url = reverse('boards:topic-new', kwargs={'pk': 1})
         data = {}
         response = self.client.post(url, data)
         form = response.context.get('form')
@@ -72,7 +72,7 @@ class NewTopicTests(TestCase):
         Invalid data should not be send by post
         The form with validation errors should be displayed
         """
-        url = reverse('topic-new', kwargs={'pk': 1})
+        url = reverse('boards:topic-new', kwargs={'pk': 1})
         data = {
             'subject': '',
             'message': ''
@@ -83,7 +83,7 @@ class NewTopicTests(TestCase):
         self.assertFalse(Post.objects.exists())
 
     def test_contains_form(self):
-        url = reverse('topic-new', kwargs={'pk': 1})
+        url = reverse('boards:topic-new', kwargs={'pk': 1})
         response = self.client.get(url)
         form = response.context.get('form')
         self.assertIsInstance(form, NewTopicForm)
@@ -92,7 +92,7 @@ class NewTopicTests(TestCase):
 class LoginRequiredNewTopicTests(TestCase):
     def setUp(self):
         board = Board.objects.create(name='Django', description='about django')
-        self.url = reverse('topic-new', kwargs={'pk': board.pk})
+        self.url = reverse('boards:topic-new', kwargs={'pk': board.pk})
         self.response = self.client.get(self.url)
 
     def test_redirection(self):

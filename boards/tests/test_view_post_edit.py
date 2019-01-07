@@ -26,7 +26,7 @@ class PostEditTestCase(TestCase):
         self.post = Post.objects.create(topic=self.topic,
                                         created_by=user,
                                         message='post-edit test view')
-        self.url = reverse('post-edit', kwargs={
+        self.url = reverse('boards:post-edit', kwargs={
             'pk': self.board.pk,
             'topic_pk': self.topic.pk,
             'post_pk': self.post.pk
@@ -103,7 +103,7 @@ class SuccessfulPostEditViewTests(PostEditTestCase):
 
     def test_redirection(self):
         """A valid submission should redirect the user"""
-        topic_posts_url = reverse('topic-posts', kwargs={
+        topic_posts_url = reverse('boards:topic-posts', kwargs={
             'pk': self.board.pk,
             'topic_pk': self.topic.pk
         })

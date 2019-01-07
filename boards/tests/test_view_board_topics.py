@@ -10,12 +10,12 @@ class BoardTopicsTests(TestCase):
         Board.objects.create(name='Random', description="Random stuff")
 
     def test_board_topics_view_success_status_code(self):
-        url = reverse('topic-list', kwargs={'pk': 1})
+        url = reverse('boards:topic-list', kwargs={'pk': 1})
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
 
     def test_board_topics_view_not_found_status_code(self):
-        url = reverse('topic-list', kwargs={'pk': 99})
+        url = reverse('boards:topic-list', kwargs={'pk': 99})
         response = self.client.get(url)
         self.assertEquals(response.status_code, 404)
 
@@ -28,8 +28,8 @@ class BoardTopicsTests(TestCase):
         An unauthorized user should not see the "new topic" link
         """
         home_url = reverse('home')
-        board_topics_url = reverse('topic-list', kwargs={'pk': 1})
-        new_topic_url = reverse('topic-new', kwargs={'pk': 1})
+        board_topics_url = reverse('boards:topic-list', kwargs={'pk': 1})
+        new_topic_url = reverse('boards:topic-new', kwargs={'pk': 1})
         response = self.client.get(board_topics_url)
         self.assertContains(response, f'href="{home_url}"')
         self.assertNotContains(response, f'href="{new_topic_url}"')

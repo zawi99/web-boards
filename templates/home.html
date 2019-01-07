@@ -20,7 +20,7 @@
         {% for board in boards %}
             <tr>
                 <td>
-                    <a href="{% url 'topic-list' board.pk %}">{{ board.name }}</a>
+                    <a href="{% url 'boards:topic-list' board.pk %}">{{ board.name }}</a>
                     <small class="text-muted d-block">{{ board.description }}</small>
                 </td>
                 <td class="align-middle">{{ board.get_post_count|intcomma }}</td>
@@ -29,7 +29,7 @@
                     {% with post=board.get_last_post %}
                         {% if post %}
                             <small>
-                                <a href="{% url 'topic-posts' board.pk post.topic.pk %}">
+                                <a href="{% url 'boards:topic-posts' board.pk post.topic.pk %}">
                                     By {{ post.created_by.username }} | {{ post.created_at|naturaltime }}
                                 </a>
                             </small>

@@ -13,10 +13,10 @@
 
 {% block breadcrumb %}
     <li class="breadcrumb-item"><a href="{% url 'home' %}">Boards</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'topic-list' post.topic.board.pk %}">{{ post.topic.board.name }}</a>
+    <li class="breadcrumb-item"><a href="{% url 'boards:topic-list' post.topic.board.pk %}">{{ post.topic.board.name }}</a>
     </li>
     <li class="breadcrumb-item"><a
-            href="{% url 'topic-posts' post.topic.board.pk post.topic.pk %}">{{ post.topic.subject }}</a></li>
+            href="{% url 'boards:topic-posts' post.topic.board.pk post.topic.pk %}">{{ post.topic.subject }}</a></li>
     <li class="breadcrumb-item active">Edit post</li>
 {% endblock %}
 
@@ -25,7 +25,7 @@
         {% csrf_token %}
         {{ form|crispy }}
         <button type="submit" class="btn btn-success">Save changes</button>
-        <a href="{% url 'topic-posts' post.topic.board.pk post.topic.pk %}" class="btn btn-outline-secondary"
+        <a href="{% url 'boards:topic-posts' post.topic.board.pk post.topic.pk %}" class="btn btn-outline-secondary"
            role="button">Cancel</a>
     </form>
 {% endblock %}

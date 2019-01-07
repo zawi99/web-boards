@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
 
@@ -22,20 +22,7 @@ urlpatterns = [
 
     # boards
     url(r'^$', BoardListView.as_view(), name='home'),
-    url(r'^boards/(?P<pk>\d+)/$', TopicListView.as_view(), name='topic-list'),
-    url(r'^boards/(?P<pk>\d+)/new/$', topic_new, name='topic-new'),
-    url(r'^boards/(?P<pk>\d+)/topic/(?P<topic_pk>\d+)/$',
-        PostListView.as_view(),
-        name='topic-posts'),
-    url(r'^boards/(?P<pk>\d+)/topic/(?P<topic_pk>\d+)/reply/$', topic_reply,
-        name='topic-reply'),
-    url(
-        r'^boards/(?P<pk>\d+)/topic/(?P<topic_pk>\d+)/post/(?P<post_pk>\d+)/edit/$',
-        PostEditView.as_view(),
-        name='post-edit'),
-    url(r'^boards/(?P<pk>\d+)/topic/(?P<topic_pk>\d+)/delete/$',
-        TopicDeleteView.as_view(),
-        name='topic-delete'),
+    url(r'^boards/', include('boards.urls', namespace='boards')),
 
     # auth
     url(r'^signup/$', signup, name='signup'),

@@ -55,7 +55,7 @@ def topic_new(request, pk):
                 topic=topic,
                 created_by=user,
             )
-            return redirect('topic-posts', pk=pk, topic_pk=topic.pk)
+            return redirect('boards:topic-posts', pk=pk, topic_pk=topic.pk)
     else:
         form = NewTopicForm()
 
@@ -104,7 +104,7 @@ def topic_reply(request, pk, topic_pk):
             topic.last_update = timezone.now()
             topic.save()
 
-            topic_url = reverse('topic-posts',
+            topic_url = reverse('boards:topic-posts',
                                 kwargs={
                                     'pk': topic.board.pk,
                                     'topic_pk': topic.pk
@@ -139,7 +139,7 @@ class PostEditView(LoginRequiredMixin, UpdateView):
         post = form.save(commit=False)
         post.updated_by = self.request.user
         post.save()
-        return redirect('topic-posts', pk=post.topic.board.pk,
+        return redirect('boards:topic-posts', pk=post.topic.board.pk,
                         topic_pk=post.topic.pk)
 
 
@@ -155,4 +155,4 @@ class TopicDeleteView(DeleteView):
 
     def get_success_url(self):
         board_pk = self.kwargs.get('pk')
-        return reverse_lazy('topic-list', kwargs={'pk': board_pk})
+        return reverse_lazy('boards:topic-list', kwargs={'pk': board_pk})
