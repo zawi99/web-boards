@@ -131,7 +131,9 @@ class PostEditView(LoginRequiredMixin, UpdateView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.filter(created_by=self.request.user)
+        if not self.request.user.is_staff:
+            queryset = queryset.filter(created_by=self.request.user)
+        return queryset
 
     def form_valid(self, form):
         post = form.save(commit=False)
